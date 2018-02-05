@@ -1,6 +1,6 @@
 title: Researcher
-url: "" #"https://ankitsultana.com"
-baseurl: "" # "/researcher"
+url: "https://mmogib.github.io" #"https://ankitsultana.com"
+baseurl: "/faculty_website" # "/researcher"
 
 markdown: kramdown
 
