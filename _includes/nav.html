@@ -4,7 +4,7 @@
             {% for x in site.pages %}
             {% if x.title %}
             
-            <li class="alignable pull-right nav-list">/ <a href="{{ x.url }}"> {{ x.title }}</a>
+            <li class="alignable pull-right nav-list">/ <a href="{{site.baseurl}}{{ x.url }}"> {{ x.title }}</a>
                 </li>
                 {% endif %}
             
