@@ -5,24 +5,29 @@ title: Contact Me
 permalink: /contact/
 ---
 
-* Email: [foo@xyz.com](mailto:foo@xyz.com)
+* Email: [{{site.data.info.email}}]({{site.data.info.email}})
 
-* Phone: [+91-123123](tel:+91-123123)
+* Phone: [{{site.data.info.phone}}]({{site.data.info.phone}})
+
+* Office: [{{site.data.info.office}}]({{site.data.info.office}})
+
 
 ---
 
 ## Mailing Address
-
-> 221B, Baker Street
->
-> London
->
-> United Kingdom
+{% assign mail = site.data.info.mail | split: "[period]"%}
+{% for line in mail%}
+> {{line}}
+{% endfor %}
 
 ---
 
+{% assign social = site.data.info.social_media %}
+{% if social %}
 ## Social
-
-1. [Facebook](#)
-2. [Twitter](#)
-3. [Google+](#)
+{% for media in social %}
+{% assign title =media[0] %}
+{{title}} : 
+{{media[1]}}
+{% endfor %}
+{% endif %}

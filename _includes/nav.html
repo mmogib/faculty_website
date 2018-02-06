@@ -1,5 +1,5 @@
 <div class="navbar container">
-    <a id="author-name" class="alignable pull-left" href="{{ site.url }}{{ site.baseurl }}">{{ site.title }}</a>
+    <a id="author-name" class="alignable pull-left" href="{{ site.url }}{{ site.baseurl }}">{{ site.data.info.name }}</a>
     <ul class="alignable pull-right navbar-ul">
             {% for x in site.pages %}
             {% if x.title %}
@@ -9,7 +9,7 @@
                 {% endif %}
             
         {% endfor %}
-        <li class="alignable pull-right nav-list"><a href="/">Home</a> 
+        <li class="alignable pull-right nav-list"><a href="{% if site.baseurl=='' %} / {% else %} {{ site.baseurl }}{% endif %}">Home</a> 
             
         </ul>
 </div>

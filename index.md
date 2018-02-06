@@ -3,46 +3,14 @@ layout: default
 ---
 
 ## About Me
+{% assign user = site.data.info.email | split : "@" %}
+{% assign img = 'assets/images/' | append : user[0] | append : '.png' %}
+<img class="profile-picture" src="{{ img | relative_url }}">
 
-<img class="profile-picture" src="{{ 'assets/images/furati.png'| relative_url }}">
+{% include usable/aboutme.md %}
 
-Hi! I am a junior year student of B.E. Computer Science at Birla Institute of Technology and Science, Pilani.
+{% include usable/research_interests.md %}
 
-This is a jekyll based resume template. You can find the full source code on [GitHub](https://github.com/bk2dcradle/researcher)
+{% include usable/publications_short.md %}
 
-## Research Interest
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam finibus ipsum ac erat aliquam dapibus. Vestibulum vehicula placerat ex, a consectetur odio pharetra quis. Mauris id urna ante. Fusce pharetra diam ac nisi aliquet, vel egestas ex iaculis. Pellentesque laoreet cursus tellus sed pellentesque. Praesent a rhoncus elit. Nunc ipsum nisl, consequat sit amet pretium quis, gravida id ipsum.
-
-## Publications
-
-{% assign counter = 0 %}
-{% for pub in site.data.info.publications%}
-{% assign count = count | plus: 1 %}
-{{count}}. {{pub}}
-{% endfor %}
-
-## Typography
-
-This is a [link](http://google.com). Something _italics_ and something **bold**.
-
-Here is a table
-
-| Year | Award     | Category                                              |
-| ---- | --------- | ----------------------------------------------------- |
-| 2014 | Emmy      | Won Outstanding Lead Actor in a miniseries or a movie |
-| 2015 | BAFTA     | Nominated for Best Leading Actor for Sherlock         |
-| 2014 | Satellite | Won Best Actor miniseries or television film          |
-
-Here is a horizontal rule
-
----
-
-Here is a blockquote
-
-> To a great mind, nothing is little
-
-## References
-
-* Foo Bar: Head of Department, Placeholder Names, Lorem
-* John Doe: Associate Professor, Department of Computer Science, Ipsum

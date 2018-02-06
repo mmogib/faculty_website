@@ -1,5 +1,7 @@
 _site
+_mathfaculty
 .sass-cache
 .sass-cache/
 _config_local.yml
+_config_mathsite.yml
 .DS_Store
