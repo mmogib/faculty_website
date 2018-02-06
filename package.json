@@ -1,0 +1,24 @@
+{
+  "name": "faculty_website",
+  "version": "1.0.0",
+  "description": "A clean, single column, monospace resume template built for jekyll",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmogib/faculty_website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmogib/faculty_website/issues"
+  },
+  "homepage": "https://github.com/mmogib/faculty_website#readme",
+  "dependencies": {
+    "firebase": "^4.9.1",
+    "firebase-admin": "^5.8.2"
+  }
+}

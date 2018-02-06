@@ -5,3 +5,7 @@ _mathfaculty
 _config_local.yml
 _config_mathsite.yml
 .DS_Store
+node_modules
+serviceAdmin.json
+packages,json
+app.js
