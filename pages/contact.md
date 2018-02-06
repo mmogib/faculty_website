@@ -1,6 +1,8 @@
 ---
-layout: default
+layout: page
 is_contact: true
+title: Contact Me
+permalink: /contact/
 ---
 
 * Email: [foo@xyz.com](mailto:foo@xyz.com)

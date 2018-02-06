@@ -1,4 +1,5 @@
 _site
 .sass-cache
 .sass-cache/
+_config_local.yml
 .DS_Store
