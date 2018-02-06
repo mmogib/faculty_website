@@ -1,8 +1,10 @@
 ---
 layout: page
 title: Research
-premalimk: /research/
+permalink: /research/
 ---
+
+
 {% assign publications = site.data.info.research %}
 {% for pub in publications%}
 {% if pub.title=="Publications"%}
