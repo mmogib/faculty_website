@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/mmogib/faculty_website#readme",
   "dependencies": {
+    "archiver": "^2.1.1",
     "firebase": "^4.9.1",
-    "firebase-admin": "^5.8.2"
+    "firebase-admin": "^5.8.2",
+    "rimraf": "^2.6.2"
   }
 }

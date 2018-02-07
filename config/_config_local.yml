@@ -1,0 +1,15 @@
+title: Faculty 
+url: "" #"https://ankitsultana.com"
+baseurl: "" # "/researcher"
+
+markdown: kramdown
+
+tracking_id: #
+
+sass:
+    style: compressed
+    sass_dir: _sass
+
+
+# Do not copy these files to the output directory
+exclude: ["src", "archives","config", "node_modules"]

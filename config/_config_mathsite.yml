@@ -1,0 +1,17 @@
+title: Faculty 
+url: "http://faculty.kfupm.edu.sa" #"https://ankitsultana.com"
+baseurl: "/math/mshahrani/kmfurati" # "/researcher"
+
+markdown: kramdown
+
+tracking_id: #
+
+sass:
+    style: compressed
+    sass_dir: _sass
+
+destination: _mathfaculty
+
+
+# Do not copy these files to the output directory
+exclude: ["src", "archives","config", "node_modules"]
