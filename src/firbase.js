@@ -1,10 +1,11 @@
 const { exec } = require('child_process')
 const admin = require('firebase-admin')
 const path = require('path')
+const fs = require('fs')
 
 var serviceAccount = require('../config/serviceAdmin-dev.json')
 const { zipit } = require('./zip')
-const { remove_directory } = require('./utils')
+const { remove_directory, remove_yaml } = require('./utils')
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -12,7 +13,7 @@ admin.initializeApp({
 	storageBucket: 'facutly-website-dev.appspot.com'
 })
 const db = admin.database()
-const bucket = admin.storage().bucket()
+const mainBucket = admin.storage().bucket()
 const dbref = db.ref('site_requests')
 const options = {
 	// The path to which the file should be downloaded, e.g. "./file.txt"
@@ -26,7 +27,7 @@ const update_processed = username => {
 }
 
 const setup_link = username => {
-	bucket.file(`${username}.zip`).getSignedUrl(
+	mainBucket.file(`${username}.zip`).getSignedUrl(
 		{
 			action: 'read',
 			expires: '03-17-2035'
@@ -41,53 +42,69 @@ const setup_link = username => {
 		}
 	)
 }
-const observe_db = () => {
+function observe_db() {
 	dbref.orderByKey().on('value', snapshot => {
 		snapshot.forEach(snap => {
 			const username = snap.key
-			const prcessed = !!snap.child('processed').val()
+			const prcessed = !!snapshot.child(`${username}/processed`).val()
+			const file = snap.child('image').val()
 			if (!prcessed) {
-				const yamlfile = `${username}.yml`
-				if (bucket.file(yamlfile).exists()) {
-					download_yaml(yamlfile)
-						.then(msg => {
-							console.log(msg)
-							zipit(username).then(() => {
-								upload_zip(username).then(() => {
-                                    update_processed(username)
-									setup_link(username)
-								})
+				const yamlfile = `${username}/${username}.yml`
+				console.log('here', yamlfile)
+				download_img(username, file).then(() => {
+					mainBucket
+						.file(yamlfile)
+						.exists()
+						.then(() => {
+							remove_yaml().then(() => {
+								console.log(username)
+								download_yaml(yamlfile, username)
+									.then(msg => {
+										console.log(msg)
+										zipit(username).then(() => {
+											upload_zip(username).then(() => {
+												update_processed(username)
+												setup_link(username)
+											})
+										})
+									})
+									.catch(err => console.log(err))
 							})
 						})
-						.catch(err => console.log(err))
-				}
-				console.log('value', username, snap.child('processed').val())
+				})
 			}
-			//snap.forEach(s=>console.log(s.val()))
 		})
-	})
 
-	return
+		return
+	})
 }
 
 const upload_zip = username => {
 	return new Promise((resolve, reject) => {
-		bucket
+		mainBucket
 			.upload(path.join(__dirname, `../archives/${username}.zip`))
 			.then(result => resolve())
 			.catch(error => reject(error))
 	})
 }
 
-const download_yaml = yamlfile => {
+const download_yaml = (yamlfile, username) => {
+	let str = new Date().toISOString().replace(/:/g, '_')
+	str = str.replace('.', '_', 'g')
+	const fileDist = __dirname + `/../_data/info_${username}_${str}.yml`
+	const fileToSave = __dirname + `/../_data/info.yml`
 	return new Promise((resolve, reject) => {
-		bucket
+		mainBucket
 			.file(yamlfile)
-			.download(options)
+			.download({
+				// The path to which the file should be downloaded, e.g. "./file.txt"
+				destination: fileDist
+			})
 			.then(file => {
+				fs.copyFileSync(fileDist, fileToSave)
 				remove_directory().then(() => {
 					exec(
-						'jekyll b --confi=config/_config_mathsite.yml  JEKYLL_ENV=production',
+						`jekyll b --confi=config/_config_mathsite.yml  JEKYLL_ENV=production --baseurl /math/${username}/testing`,
 						(error, stdout, stderr) => {
 							if (error) {
 								console.error(`exec error: ${error}`)
@@ -108,4 +125,19 @@ const download_yaml = yamlfile => {
 	})
 }
 
-module.exports = { db, bucket, observe_db }
+function download_img(username, file) {
+	return new Promise(res => res())
+	/*return new Promise(resolve => {
+		mainBucket
+			.file(`${username}/${file}`)
+			.download({
+				destination: path.join(__dirname, `/../assets/images/${file}`)
+			})
+			.then(() => resolve())
+			.catch((e) => {
+				console.log(e.message)
+				resolve()})
+	})*/
+}
+
+module.exports = { db, mainBucket, observe_db }

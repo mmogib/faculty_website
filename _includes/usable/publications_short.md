@@ -14,4 +14,4 @@
 {% endif %}
 {% endif %}
 {% endfor %}
- [More ... ]({{base_url}}{% link pages/research.md %})
+ [More ... ]({{baseurl}}{% link pages/research.md %})
