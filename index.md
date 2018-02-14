@@ -11,6 +11,7 @@ layout: default
 
 {% include usable/research_interests.md %}
 
-{% include usable/publications_short.md %}
+
+{% include usable/publications.md limit="5" %}
 
 

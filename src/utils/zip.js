@@ -6,7 +6,7 @@ var archiver = require('archiver')
 const zipit = username => {
 	return new Promise((resolve, reject) => {
 		var output = fs.createWriteStream(
-			path.join(__dirname, `/../archives/${username}.zip`)
+			path.join(__dirname, `../../archives/${username}.zip`)
 		)
 		var archive = archiver('zip', {
 			zlib: { level: 9 } // Sets the compression level.

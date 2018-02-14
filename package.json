@@ -1,27 +1,43 @@
 {
-  "name": "faculty_website",
-  "version": "1.0.0",
-  "description": "A clean, single column, monospace resume template built for jekyll",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mmogib/faculty_website.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mmogib/faculty_website/issues"
-  },
-  "homepage": "https://github.com/mmogib/faculty_website#readme",
-  "dependencies": {
-    "archiver": "^2.1.1",
-    "firebase": "^4.9.1",
-    "firebase-admin": "^5.8.2",
-    "rimraf": "^2.6.2"
-  },
-  "devDependencies": {}
+	"name": "faculty_website",
+	"version": "1.0.0",
+	"description": "A clean, single column, monospace resume template built for jekyll",
+	"main": "index.js",
+	"scripts": {
+		"start": "webpack -w && webpack-dev-server -w",
+		"start:dev": "webpack-dev-server -w",
+		"build": "webpack -p"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mmogib/faculty_website.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/mmogib/faculty_website/issues"
+	},
+	"homepage": "https://github.com/mmogib/faculty_website#readme",
+	"dependencies": {
+		"archiver": "^2.1.1",
+		"firebase": "^4.9.1",
+		"firebase-admin": "^5.8.2",
+		"jquery": "^3.3.1",
+		"node-fetch": "^2.0.0",
+		"rimraf": "^2.6.2",
+		"xml2js": "^0.4.19"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.2",
+		"babel-polyfill": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"css-loader": "^0.28.9",
+		"file-loader": "^1.1.6",
+		"style-loader": "^0.20.1",
+		"uglifyjs-webpack-plugin": "^1.1.8",
+		"webpack": "^3.10.0",
+		"webpack-dev-server": "^2.11.1"
+	}
 }

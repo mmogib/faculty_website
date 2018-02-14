@@ -1,4 +1,4 @@
-
+<!--
 {% assign publications = site.data.info.research %}
 {% for pub in publications%}
 {% if pub.title=="Publications"%}
@@ -8,3 +8,7 @@
 {% endfor %}
 {% endif %}
 {% endfor %}
+-->
+# Publications 
+{% if include.limit=='5' %}<a  href="{{site.baseurl}} research "> (more) </a>{% endif %}
+<div id="ScopusPublications" data-limit="{{include.limit}}"></div>

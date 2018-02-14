@@ -1,4 +1,5 @@
 
+<!--
 {% assign teaching = site.data.info.teaching %}
 {% for item in teaching%}
 # {{item.title}}
@@ -6,3 +7,6 @@
 1. {{item}}
 {% endfor %}
 {% endfor %}
+-->
+# Course Taught
+<div id="coursesTaught" ></div>
