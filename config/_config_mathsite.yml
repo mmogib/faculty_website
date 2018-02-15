@@ -16,5 +16,5 @@ destination: _mathfaculty
 # Do not copy these files to the output directory
 exclude: [  "src", "archives","config", 
             "node_modules", "app.js","Gemfile",
-            "Gemfile.lock","package*", "api"
+            "Gemfile.lock","package*", "api","webpack.config.js"
         ]
