@@ -24,8 +24,7 @@
           ga('send', 'pageview');
         </script>
     {% endif %}
-    {% assign email = site.data.info.email | split: "@" %}    
     <span id="scopusId" data-scopus-id="{{site.data.info.scopus_id}}"></span>
-    <span id="username" data-user-id="{{email[0]}}"></span>
+    <span id="username" data-user-id="{{site.data.info.username}}"></span>
     <script src="{{ 'assets/js/bundle.min.js' | relative_url }}"></script>
 </body>

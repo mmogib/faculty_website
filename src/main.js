@@ -5,7 +5,8 @@ const {
 	download_yaml,
 	setup_link,
 	update_processed,
-	last_update_teaching
+	last_update_teaching,
+	create_yaml
 } = require('./download')
 
 const { upload_zip, uploadDataToFirebase } = require('./upload')
@@ -45,13 +46,12 @@ function observe_db() {
 	dbref.orderByKey().on('value', snapshot => {
 		snapshot.forEach(snap => {
 			const username = snap.key
+			const scopus_id = snapshot.child(`${username}/scopus_id`).val()
 			const prcessed = !!snapshot.child(`${username}/processed`).val()
 			const file = snap.child('image').val()
 			if (!prcessed) {
 				const yamlfile = `${username}/${username}.yml`
 				console.log('creating website of ', username)
-				console.log('starting uploading data for ', username)
-				uploadDataToFirebase(username)
 				console.log('downloading image if any ')
 				download_img(username, file).then(() => {
 					mainBucket
@@ -61,7 +61,8 @@ function observe_db() {
 							console.log('removing info.yml')
 							remove_yaml().then(() => {
 								console.log('downloading ', yamlfile)
-								download_yaml(yamlfile, username)
+								//download_yaml(yamlfile, username)
+								create_yaml(username, scopus_id)
 									.then(msg => {
 										console.log(msg)
 

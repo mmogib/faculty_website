@@ -1,5 +1,9 @@
-## Research Interest
 
+<div id="researchInterests" >
+<h2> Research Interest </h2>
+<div> Loading please, wait ...</div>
+</div>
+<!--
 {% assign research = site.data.info.research %}
 {% for interest in research%}
 {% if interest.title=="Research Interests"%}
@@ -13,4 +17,5 @@
 {% endif %}
 {% endif %}
 {% endfor %}
+-->
 

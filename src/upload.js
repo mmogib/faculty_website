@@ -86,7 +86,7 @@ const uploadDataToFirebase = username => {
 				.catch(error => console.log('pushing fails because ', error))
 		})
 		.catch(error => {
-			console.log("couldn'nt push bevause ", error.message)
+			console.log("couldn'nt push because ", error.message)
 		})
 }
 

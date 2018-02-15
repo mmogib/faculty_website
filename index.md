@@ -4,8 +4,8 @@ layout: default
 
 ## About Me
 {% assign user = site.data.info.email | split : "@" %}
-{% assign img = 'assets/images/' | append : user[0] | append : '.png' %}
-<img class="profile-picture" src="{{ 'assets/images/dept.png' | relative_url }}">
+{% assign img = 'assets/images/' | append : 'unknown' | append : '.png' %}
+<img id="profile-picture" class="profile-picture" src="{{img}}" alt="Profile picture">
 
 {% include usable/aboutme.md %}
 

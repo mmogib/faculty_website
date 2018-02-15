@@ -1,5 +1,5 @@
----
-layout: page
+<!---
+layout: default
 is_contact: true
 title: Contact Me
 permalink: /contact/
@@ -31,3 +31,5 @@ permalink: /contact/
 {{media[1]}}
 {% endfor %}
 {% endif %}
+
+-->

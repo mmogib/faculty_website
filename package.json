@@ -4,7 +4,7 @@
 	"description": "A clean, single column, monospace resume template built for jekyll",
 	"main": "index.js",
 	"scripts": {
-		"start": "webpack -w && webpack-dev-server -w",
+		"start": "webpack -w",
 		"start:dev": "webpack-dev-server -w",
 		"build": "webpack -p"
 	},

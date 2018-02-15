@@ -8,5 +8,24 @@
 {% endfor %}
 {% endfor %}
 -->
-# Course Taught
-<div id="coursesTaught" ></div>
+
+<div id="teaching">
+ 
+    <div id="currentSchedule" class="hide">
+        <h2>Current Schedule</h2>
+        <div>Loading please, wait ...</div>
+    </div>
+
+    <div id="currentOH" class="hide">
+        <h2>Office Hours</h2>
+        <div>Loading please, wait ...</div>
+    </div>
+
+    <div id="coursesTaught" class="hide">
+        <h2>Courses Taught</h2>
+        <div>Loading please, wait ...</div>
+    </div>
+
+    <div id="teaching-loading">Loading please, wait ...</div>
+
+</div>

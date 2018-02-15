@@ -5,18 +5,15 @@ const fs = require('fs')
 const { dbref, mainBucket } = require('./firbase')
 const { remove_directory } = require('./utils')
 
-
-const last_update_teaching = username =>{
+const last_update_teaching = username => {
 	dbref.child(`${username}/teaching_updated`).set(new Date().toISOString())
 }
-
 
 const update_processed = username => {
 	dbref
 		.child(username)
 		.child('processed')
-        .set(true)
-        .then(()=>last_update_teaching(username))
+		.set(true)
 }
 
 const setup_link = username => {
@@ -36,7 +33,28 @@ const setup_link = username => {
 	)
 }
 
-
+const create_yaml = (username, scopus_id = '55059142500') => {
+	let str = new Date().toISOString().replace(/:/g, '_')
+	str = str.replace('.', '_', 'g')
+	const fileDist = path.join(__dirname , `/../_data/info_${username}_${str}.yml`)
+	
+	const fileToSave = path.join(__dirname , `/../_data/info.yml`)
+	console.log(fileToSave)
+	const data = `username: ${username} \nscopus_id: ${scopus_id}`
+	return new Promise((resolve, reject) => {
+		fs.open(fileDist, 'w+', (err, fd) => {
+			if (err) reject(err)
+			fs.appendFile(fd, data, 'utf8', err => {
+				fs.close(fd, err => {
+					if (err) reject(err)
+				})
+				if (err) reject(err)
+				fs.copyFileSync(fileDist, fileToSave)
+				resolve('ymal file successfully created ..')
+			})
+		})
+	})
+}
 
 const download_yaml = (yamlfile, username) => {
 	let str = new Date().toISOString().replace(/:/g, '_')
@@ -90,11 +108,11 @@ function download_img(username, file) {
 	})*/
 }
 
-
-module.exports ={ 
-    download_img,
-    download_yaml,
-    setup_link,
-    update_processed,
-    last_update_teaching
+module.exports = {
+	download_img,
+	download_yaml,
+	setup_link,
+	update_processed,
+	last_update_teaching,
+	create_yaml
 }
