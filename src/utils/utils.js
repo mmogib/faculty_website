@@ -6,7 +6,7 @@ var rmdirectory = require('rimraf')
 // create a file to stream archive data to.
 const remove_directory = () => {
 	return new Promise(resolve => {
-		const directory = path.join(__dirname, '../_mathfaculty')
+		const directory = path.join(__dirname, '../../_mathfaculty')
 		if (fs.existsSync(directory)) {
 			rmdirectory(directory, error => {
 				if (!error) {
@@ -21,7 +21,7 @@ const remove_directory = () => {
 
 const remove_yaml = () => {
 	return new Promise(resolve => {
-		const yamlFile = path.join(__dirname, '../_data/info.yml')
+		const yamlFile = path.join(__dirname, '../../_data/info.yml')
 		if (fs.existsSync(yamlFile)) {
 			rmdirectory(yamlFile, error => {
 				touch_file(yamlFile)

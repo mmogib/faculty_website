@@ -15,5 +15,5 @@ sass:
 # Do not copy these files to the output directory
 exclude: [  "src", "archives","config", 
             "node_modules", "app.js","Gemfile",
-            "Gemfile.lock","package*", "api","webpack.config.js"
+            "Gemfile.lock","package*", "api","webpack.config*"
         ]

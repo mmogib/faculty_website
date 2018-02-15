@@ -172,7 +172,7 @@ if (teachingDiv) {
 }
 
 const buildFirstPage = () => {
-	authorName.innerText = profile.name
+	//authorName.innerText = profile.name
 	if (profilePicture) {
 		profilePicture.src = profile.image
 	}

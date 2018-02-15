@@ -2,7 +2,7 @@ const { exec } = require('child_process')
 const path = require('path')
 const fs = require('fs')
 
-const { dbref, mainBucket } = require('./firbase')
+const { dbref, mainBucket, userref } = require('./firbase')
 const { remove_directory } = require('./utils')
 
 const last_update_teaching = username => {
@@ -33,14 +33,15 @@ const setup_link = username => {
 	)
 }
 
-const create_yaml = (username, scopus_id = '55059142500') => {
+const create_yaml = (username, scopus_id , name) => {
+
 	let str = new Date().toISOString().replace(/:/g, '_')
 	str = str.replace('.', '_', 'g')
-	const fileDist = path.join(__dirname , `/../_data/info_${username}_${str}.yml`)
-	
-	const fileToSave = path.join(__dirname , `/../_data/info.yml`)
+	const fileDist = path.join(__dirname, `/../_data/info_${username}_${str}.yml`)
+
+	const fileToSave = path.join(__dirname, `/../_data/info.yml`)
 	console.log(fileToSave)
-	const data = `username: ${username} \nscopus_id: ${scopus_id}`
+	const data = `username: ${username} \nscopus_id: ${scopus_id} \nname: ${name}`
 	return new Promise((resolve, reject) => {
 		fs.open(fileDist, 'w+', (err, fd) => {
 			if (err) reject(err)
@@ -93,6 +94,31 @@ const download_yaml = (yamlfile, username) => {
 	})
 }
 
+const create_website = (username) => {
+	return new Promise((resolve, reject) => {
+		remove_directory()
+			.then(() => {
+				exec(
+					`jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}/testing`,
+					(error, stdout, stderr) => {
+						if (error) {
+							console.error(`exec error: ${error}`)
+							reject(error)
+						} else {
+							resolve(`website created ... `)
+							//console.log(`stdout: ${stdout}`)
+							console.log(`stderr: ${stderr}`)
+						}
+					}
+				)
+			})
+			.catch(error => {
+				const msg = `${yamlfile}: ${error.message}`
+				reject(msg)
+			})
+	})
+}
+
 function download_img(username, file) {
 	return new Promise(res => res())
 	/*return new Promise(resolve => {
@@ -114,5 +140,6 @@ module.exports = {
 	setup_link,
 	update_processed,
 	last_update_teaching,
-	create_yaml
+	create_yaml,
+	create_website
 }

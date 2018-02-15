@@ -10,5 +10,6 @@ admin.initializeApp({
 const db = admin.database()
 const mainBucket = admin.storage().bucket()
 const dbref = db.ref('site_requests')
+const userref = db.ref('users')
 
-module.exports = { db, mainBucket, dbref }
+module.exports = { db, mainBucket, dbref, userref }
