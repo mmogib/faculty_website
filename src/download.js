@@ -5,6 +5,8 @@ const fs = require('fs')
 const { dbref, mainBucket, userref } = require('./firbase')
 const { remove_directory } = require('./utils')
 
+const { getFacultyData } = require('./teaching/')
+
 const last_update_teaching = username => {
 	dbref.child(`${username}/teaching_updated`).set(new Date().toISOString())
 }
@@ -33,25 +35,53 @@ const setup_link = username => {
 	)
 }
 
-const create_yaml = (username, scopus_id , name) => {
-
+const prepare_yaml_content = (username, scopus_id, name) => {
+	let temp = []
+	temp.push(`username: ${username}`)
+	temp.push(`scopus_id: ${scopus_id}`)
+	temp.push(`name: ${name}`)
+	return new Promise((resolve, reject) => {
+		getFacultyData(username)
+			.then(factData => {
+				const research_interests =
+					factData[0]['research_interests'][0]['researchInterest']
+				const Interestskeys = Object.keys(research_interests)
+				let research_interestsArr = []
+				Interestskeys.forEach((key, value) => {
+					research_interestsArr.push(`- ${research_interests[key]['_']}`)
+				})
+				temp.push(`profile_image: ${factData[0]['image'][0]}`)
+				temp.push(`position: ${factData[0]['rank'][0]}`)
+				temp.push(`office: ${factData[0]['office'][0]}`)
+				temp.push(`phone: +966-13-860-${factData[0]['phone'][0]}`)
+				temp.push(`researchInterests: \n${research_interestsArr.join('\n')}`)
+				resolve(temp.join('\n'))
+			})
+			.catch(error => {
+				console.log(error)
+				resolve(temp.join('\n'))
+			})
+	})
+}
+const create_yaml = (username, scopus_id, name) => {
 	let str = new Date().toISOString().replace(/:/g, '_')
 	str = str.replace('.', '_', 'g')
 	const fileDist = path.join(__dirname, `/../_data/info_${username}_${str}.yml`)
 
 	const fileToSave = path.join(__dirname, `/../_data/info.yml`)
-	console.log(fileToSave)
-	const data = `username: ${username} \nscopus_id: ${scopus_id} \nname: ${name}`
+
 	return new Promise((resolve, reject) => {
-		fs.open(fileDist, 'w+', (err, fd) => {
-			if (err) reject(err)
-			fs.appendFile(fd, data, 'utf8', err => {
-				fs.close(fd, err => {
-					if (err) reject(err)
-				})
+		prepare_yaml_content(username, scopus_id, name).then(data => {
+			fs.open(fileDist, 'w+', (err, fd) => {
 				if (err) reject(err)
-				fs.copyFileSync(fileDist, fileToSave)
-				resolve('ymal file successfully created ..')
+				fs.appendFile(fd, data, 'utf8', err => {
+					fs.close(fd, err => {
+						if (err) reject(err)
+					})
+					if (err) reject(err)
+					fs.copyFileSync(fileDist, fileToSave)
+					resolve('ymal file successfully created ..')
+				})
 			})
 		})
 	})
@@ -94,7 +124,7 @@ const download_yaml = (yamlfile, username) => {
 	})
 }
 
-const create_website = (username) => {
+const create_website = username => {
 	return new Promise((resolve, reject) => {
 		remove_directory()
 			.then(() => {

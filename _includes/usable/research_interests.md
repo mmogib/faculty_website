@@ -1,21 +1,12 @@
-
+<!--
 <div id="researchInterests" >
-<h2> Research Interest </h2>
+<h2> Research Interests </h2>
 <div> Loading please, wait ...</div>
 </div>
-<!--
-{% assign research = site.data.info.research %}
-{% for interest in research%}
-{% if interest.title=="Research Interests"%}
-{% if interest.list %}
-{% for item in interest.list %}
+-->
+## Research Interests
+{% for item in site.data.info.researchInterests %}
 * {{item}}
 {% endfor %}
-{% endif %}
-{% if interest.para %}
-{{interest.para}}
-{% endif %}
-{% endif %}
-{% endfor %}
--->
+
 

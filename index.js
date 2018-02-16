@@ -1,4 +1,4 @@
-import { getPublicationsByAuthorId } from './api/scopus'
+import { getPublicationsByAuthorId, getCitedByUrl } from './api/scopus'
 import {
 	getBasicData,
 	getCourseFiles,
@@ -13,17 +13,27 @@ const id = document.getElementById('scopusId').dataset.scopusId
 const username = document.getElementById('username').dataset.userId
 const publicationId = document.getElementById('ScopusPublications')
 const teachingDiv = document.getElementById('teaching')
-const profilePicture = document.getElementById('profile-picture')
+//const profilePicture = document.getElementById('profile-picture')
 let profile = null
 
-const aboutMeDiv = document.getElementById('aboutMeDiv')
+//const aboutMeDiv = document.getElementById('aboutMeDiv')
 
 const authorName = document.getElementById('author-name')
-const researchInterests = document.querySelector('#researchInterests div')
+//const researchInterests = document.querySelector('#researchInterests div')
+
+const getAuthors = authors => {
+	let temp = []
+	authors.forEach(a => {
+		temp.push(a.authname)
+	})
+	return temp.join(', ')
+}
+
+
 
 getBasicData(username)
 	.then(data => {
-		console.log(data)
+		//console.log(data)
 		profile = {}
 		profile = data
 		buildFirstPage()
@@ -32,7 +42,20 @@ getBasicData(username)
 
 if (publicationId) {
 	const limit = document.getElementById('ScopusPublications').dataset.limit
+	/*publicationId.addEventListener('click',e=>{
+		<strong>(<a name="prims:url" href="${publications[key]['prism:url']}">cited by</a>: 
+					${publications[key]['citedby-count']})</strong>
+					,
+		if (e.target.name==='prims:url'){
+			e.preventDefault()
+			console.log(e.target.href)
+			getCitedByUrl(e.target.href).then(data=>console.log('data',data))
+			.catch(error=>console.log('error',error))
+			
+		}
+	})*/
 	getPublicationsByAuthorId(id, limit).then(data => {
+		//console.log(data)
 		if (data['service-error']) {
 			publicationId.innerHTML = `<div >Scopus Server Error: 
 			${data['service-error'].status.statusText}</div>`
@@ -41,22 +64,24 @@ if (publicationId) {
 			const publications = data['search-results'].entry
 			const keys = Object.keys(publications)
 			keys.forEach(key => {
+				let vol = publications[key]['prism:volume']
+					? 'vol. '+ publications[key]['prism:volume']+', '
+					: ''
 				html += `<li> 
-                ${publications[key]['dc:title']}, 
+				${getAuthors(publications[key]['author'])},
+				"${publications[key]['dc:title']}", 
                 ${publications[key]['prism:publicationName']},
+				${vol}
+				pp. ${publications[key]['prism:pageRange']},
                 ${publications[key]['prism:coverDisplayDate']},
-                <strong>(cited by: ${
-																	publications[key]['citedby-count']
-																})</strong>
+				<strong>(cited by: ${publications[key]['citedby-count']})</strong>
                 <a target="_blank" 
                 rel="noopener noreferrer"
-                href="https://doi.org/${
-																	publications[key]['prism:doi']
-																}">download</a>
+                href="https://doi.org/${publications[key]['prism:doi']}">download</a>
 
             </li>`
 			})
-			console.log(publications)
+			//console.log(publications)
 			html += '</ol>'
 			publicationId.innerHTML = html
 		}
@@ -134,7 +159,6 @@ if (teachingDiv) {
 	const currentSchedule = document.querySelector('#currentSchedule div')
 	document.querySelector('#currentSchedule').classList.remove('hide')
 
-	
 	getSchedule(username)
 		.then(data => {
 			const values = Object.values(data)
@@ -151,10 +175,10 @@ if (teachingDiv) {
 				<tbody>
 				
 			`
-			values.forEach((lec,i) => {
-				html+=`
+			values.forEach((lec, i) => {
+				html += `
 				<tr>
-					<td> ${i+1}</td>
+					<td> ${i + 1}</td>
 					<td> ${lec.code}</td>
 					<td> ${lec.section}</td>
 					<td> ${lec.period}</td>
@@ -173,10 +197,10 @@ if (teachingDiv) {
 
 const buildFirstPage = () => {
 	//authorName.innerText = profile.name
-	if (profilePicture) {
+	/*if (profilePicture) {
 		profilePicture.src = profile.image
-	}
-	if (aboutMeDiv) {
+	}*/
+	/*if (aboutMeDiv) {
 		aboutMeDiv.innerHTML = `<img style="width: 20%;" src="./assets/images/spinner.gif"> loading ... `
 		let html = `<ul>`
 		html += `<li>Name: ${profile.name} </li>`
@@ -186,7 +210,8 @@ const buildFirstPage = () => {
 		html += `<li>Office: ${profile.office}</li>`
 		html += '</ul>'
 		aboutMeDiv.innerHTML = html
-	}
+	}*/
+	/*
 	if (researchInterests) {
 		const ri = profile.research_interests
 
@@ -199,5 +224,5 @@ const buildFirstPage = () => {
 		}
 		//researchInterests.style.display="block"
 		researchInterests.innerHTML = html
-	}
+	}*/
 }
