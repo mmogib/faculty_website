@@ -9,7 +9,8 @@
 {% endif %}
 {% endfor %}
 -->
- 
+
+{% if site.data.info.scopus_id %}
 {% if include.limit=='5' %}
 ## Publications (short list)
 {% else %}
@@ -22,4 +23,5 @@ Loading data from scopus.com, please wait ...
 
 {% if include.limit=='5' %}
 <a  class="more-link" href="{{site.baseurl}} research "> (more) </a>
+{% endif %}
 {% endif %}
