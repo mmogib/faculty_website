@@ -22,6 +22,7 @@ Loading data from scopus.com, please wait ...
  </div>
 
 {% if include.limit=='5' %}
-<a  class="more-link" href="{{site.baseurl}} research "> (more) </a>
+<a  class="more-link mb-5" href="{{site.baseurl}}/research "> (more) </a>
+
 {% endif %}
 {% endif %}
