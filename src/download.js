@@ -35,11 +35,12 @@ const setup_link = username => {
 	)
 }
 
-const prepare_yaml_content = (username, scopus_id, name) => {
+const prepare_yaml_content = (username, scopus_id, name, theme) => {
 	let temp = []
 	temp.push(`username: ${username}`)
 	temp.push(`scopus_id: ${scopus_id}`)
 	temp.push(`name: ${name}`)
+	temp.push(`theme: ${theme}`)
 	return new Promise((resolve, reject) => {
 		getFacultyData(username)
 			.then(factData => {
@@ -63,7 +64,7 @@ const prepare_yaml_content = (username, scopus_id, name) => {
 			})
 	})
 }
-const create_yaml = (username, scopus_id, name) => {
+const create_yaml = (username, scopus_id, name, theme) => {
 	let str = new Date().toISOString().replace(/:/g, '_')
 	str = str.replace('.', '_', 'g')
 	const fileDist = path.join(__dirname, `/../_data/info_${username}_${str}.yml`)
@@ -71,7 +72,7 @@ const create_yaml = (username, scopus_id, name) => {
 	const fileToSave = path.join(__dirname, `/../_data/info.yml`)
 
 	return new Promise((resolve, reject) => {
-		prepare_yaml_content(username, scopus_id, name).then(data => {
+		prepare_yaml_content(username, scopus_id, name, theme).then(data => {
 			fs.open(fileDist, 'w+', (err, fd) => {
 				if (err) reject(err)
 				fs.appendFile(fd, data, 'utf8', err => {
@@ -103,7 +104,7 @@ const download_yaml = (yamlfile, username) => {
 				fs.copyFileSync(fileDist, fileToSave)
 				remove_directory().then(() => {
 					exec(
-						`jekyll b --confi=config/_config_mathsite.yml  JEKYLL_ENV=production --baseurl /math/${username}/testing`,
+						`jekyll clean && jekyll b --confi=config/_config_mathsite.yml  JEKYLL_ENV=production --baseurl /math/${username}/testing`,
 						(error, stdout, stderr) => {
 							if (error) {
 								console.error(`exec error: ${error}`)
@@ -129,7 +130,7 @@ const create_website = username => {
 		remove_directory()
 			.then(() => {
 				exec(
-					`jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}/testing`,
+					`jekyll clean && jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}/testing`,
 					(error, stdout, stderr) => {
 						if (error) {
 							console.error(`exec error: ${error}`)

@@ -53,6 +53,7 @@ function observe_db() {
 			const scopus_id = snapshot.child(`${username}/scopus_id`).val()
 			const name = snapshot.child(`${username}/name`).val()
 			const prcessed = !!snapshot.child(`${username}/processed`).val()
+			const theme = snapshot.child(`${username}/theme`).val()
 			const file = snap.child('image').val()
 			if (!prcessed) {
 				const yamlfile = `${username}/${username}.yml`
@@ -67,7 +68,7 @@ function observe_db() {
 							remove_yaml().then(() => {
 								console.log('downloading ', yamlfile)
 								//download_yaml(yamlfile, username)
-								create_yaml(username, scopus_id, name)
+								create_yaml(username, scopus_id, name, theme)
 									.then(msg => {
 										console.log(msg)
 										create_website(username).then((msg) => {

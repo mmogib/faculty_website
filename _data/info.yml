@@ -1,12 +1,14 @@
-username: boubaker
-scopus_id: 16246513600
-name: Boubaker Smii
-profile_image: https://aisys.kfupm.edu.sa/MATH_ONLY/image/boubaker.jpg
+username: mshahrani
+scopus_id: 36135217900
+name: Mohammed Alshahrani
+theme: theme2
+profile_image: https://aisys.kfupm.edu.sa/MATH_ONLY/image/mshahrani.jpg
 position: Assoc. Prof.
-office: 5-203-3
-phone: +966-13-860-7763
+office: 5-201-1
+phone: +966-13-860-7748
 researchInterests: 
-- Stochastics in discrete
-- Stochastic Partial differential equations (SPDEs)
-- Graph Theory
-- Asymptotic expansions of SDEs driven by Levy noise
+- Vector Optimization
+- Optimal Control
+- Variational Inequalities
+- Mathematical Programming
+- Singular Ordinary Differential Equations
