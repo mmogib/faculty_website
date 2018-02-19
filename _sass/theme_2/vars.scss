@@ -1,11 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+/* fonts*/
+$font-family: 'Roboto Condensed', sans-serif;
+/**/
+
 /*
  * Customization Variables
  */
 
-$accent: #940303;
-$image-size: 205px;
- 
+$image-size: 185px;
+$green-color: rgb(2,126,64);
+$gold-color: rgb(222,205,106);
+$darkgrey-color: rgb(51,51,51);
+$lightgrey-color: rgb(224,225,221);
 
+
+$bg-color: $darkgrey-color;
+$h-color: $lightgrey-color;
 /*
  * Build Variables, don't touch
  */

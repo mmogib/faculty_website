@@ -1,10 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+/* fonts*/
+$font-family: 'Open Sans', sans-serif;
+/**/
+
 /*
  * Customization Variables
  */
 
-$accent: #FF0F00;
-$image-size: 85px;
+$image-size: 185px;
+$green-color: rgb(2,126,64);
+$gold-color: rgb(222,205,106);
+$darkgrey-color: rgb(51,51,51);
+$lightgrey-color: rgb(224,225,221);
 
+
+$bg-color: $green-color;
+$h-color: $gold-color;
 /*
  * Build Variables, don't touch
  */

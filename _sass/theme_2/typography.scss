@@ -24,14 +24,14 @@
         padding: 0 30px 0 30px;
     }
     ol > li:before {
-        content: "(" counter(list, decimal) ") ";
+        content: "[" counter(list, decimal) "] ";
         counter-increment: list;
         position: absolute;
-        left: -30px;
+        left: -40px;
     }
     blockquote {
         //border: 1px solid black;
-        border-left: 5px solid $accent;
+        border-left: 5px solid #333333;
         margin: 20px 0 20px 0;
         padding: 2px 8px 2px 8px;
         font-style: italic;
@@ -42,7 +42,7 @@
         position: relative;
         margin: -10px 0 0 15px;
         float: right;
-        border-radius: 30%;
+        border-radius: 50%;
         p & {
             padding: 0;
             margin: 0;
@@ -56,9 +56,5 @@
     img {
         text-align: center;
         width: 100%;
-    }
-
-    h1 , h2 {
-        color: darken($accent, $amount: 5%);
     }
 }

@@ -11,15 +11,16 @@ html {
 }
 body {
     margin: 0;
-    font-family: "Inconsolata";
+    font-family: $font-family;
     height: 100%;
 }
 a {
     text-decoration: none;
-    color: $accent;
+    color: darken($h-color,20%);
 }
 a:hover {
     text-decoration: underline;
+    color: darken($h-color,40%);
 }
 hr {
     border: 0;
@@ -34,11 +35,16 @@ hr {
 
 #author-name {
     font-size: 30px;
-    color: #272727;
+    color: darken($h_color,10%);
     display: inline-block;
+    margin: -20px 0 0 0;
 }
 .navbar {
-    padding: 50px 0 50px 0;
+    padding: 50px 50px;
+    background: $bg-color;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
 }
 .navbar-ul {
     display: inline-block;
@@ -62,12 +68,18 @@ hr {
     float: right;
 }
 
+
 /* Divs */
 
 .container {
     max-width: $max-width;
     margin: auto;
 }
+.container-fluid {
+    max-width: 100%;
+    margin: auto;
+}
+
 .wrapper {
     min-height: 100%;
 }
