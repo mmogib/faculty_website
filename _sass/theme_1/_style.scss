@@ -16,11 +16,11 @@ body {
 }
 a {
     text-decoration: none;
-    color: darken($h-color,20%);
+    color: $h-color;
 }
 a:hover {
     text-decoration: underline;
-    color: darken($h-color,40%);
+    color: lighten($h-color,40%);
 }
 hr {
     border: 0;
@@ -78,6 +78,7 @@ hr {
 .container-fluid {
     max-width: 100%;
     margin: auto;
+    background: url('../../assets/images/kfupmlogo.png');
 }
 
 .wrapper {

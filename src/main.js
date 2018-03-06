@@ -53,6 +53,10 @@ function observe_db() {
 			const scopus_id = snapshot.child(`${username}/scopus_id`).val()
 			const name = snapshot.child(`${username}/name`).val()
 			const prcessed = !!snapshot.child(`${username}/processed`).val()
+			let rootFolder = snapshot.child(`${username}/rootFolder`).val()
+			if (!rootFolder){
+				rootFolder=''
+			}
 			const theme = snapshot.child(`${username}/theme`).val()
 			const file = snap.child('image').val()
 			if (!prcessed) {
@@ -71,7 +75,7 @@ function observe_db() {
 								create_yaml(username, scopus_id, name, theme)
 									.then(msg => {
 										console.log(msg)
-										create_website(username).then((msg) => {
+										create_website(username, rootFolder).then((msg) => {
 											console.log(msg)
 											zipit(username).then(() => {
 												upload_zip(username).then(() => {

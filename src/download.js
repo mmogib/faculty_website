@@ -125,12 +125,13 @@ const download_yaml = (yamlfile, username) => {
 	})
 }
 
-const create_website = username => {
+const create_website = (username,rootFolder) => {
+	const tempRoot= rootFolder===''? '': `/${rootFolder}`
 	return new Promise((resolve, reject) => {
 		remove_directory()
 			.then(() => {
 				exec(
-					`jekyll clean && jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}/testing`,
+					`jekyll clean && jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}${tempRoot}`,
 					(error, stdout, stderr) => {
 						if (error) {
 							console.error(`exec error: ${error}`)
