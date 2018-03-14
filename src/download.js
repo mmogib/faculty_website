@@ -104,7 +104,7 @@ const download_yaml = (yamlfile, username) => {
 				fs.copyFileSync(fileDist, fileToSave)
 				remove_directory().then(() => {
 					exec(
-						`jekyll clean && jekyll b --confi=config/_config_mathsite.yml  JEKYLL_ENV=production --baseurl /math/${username}/testing`,
+						`bundle exec jekyll clean && bundle exec jekyll b --config=config/_config_mathsite.yml  JEKYLL_ENV=production --baseurl /math/${username}/testing`,
 						(error, stdout, stderr) => {
 							if (error) {
 								console.error(`exec error: ${error}`)
@@ -131,7 +131,7 @@ const create_website = (username,rootFolder) => {
 		remove_directory()
 			.then(() => {
 				exec(
-					`jekyll clean && jekyll b --confi=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}${tempRoot}`,
+					`bundle exec jekyll clean && bundle exec jekyll b --config=config/_config_mathsite.yml JEKYLL_ENV=production --baseurl /math/${username}${tempRoot}`,
 					(error, stdout, stderr) => {
 						if (error) {
 							console.error(`exec error: ${error}`)

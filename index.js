@@ -1,9 +1,9 @@
 import { getPublicationsByAuthorId, getCitedByUrl } from './api/scopus'
 import {
-	getBasicData,
-	getCourseFiles,
-	getOfficeHours,
-	getSchedule
+  getBasicData,
+  getCourseFiles,
+  getOfficeHours,
+  getSchedule
 } from './api/teaching'
 
 const aid = '55059142500'
@@ -22,52 +22,58 @@ const authorName = document.getElementById('author-name')
 //const researchInterests = document.querySelector('#researchInterests div')
 
 const getAuthors = authors => {
-	let temp = []
-	authors.forEach(a => {
-		temp.push(a.authname)
-	})
-	return temp.join(', ')
+  let temp = []
+  authors.forEach(a => {
+    temp.push(a.authname)
+  })
+  return temp.join(', ')
 }
 
-
-
 getBasicData(username)
-	.then(data => {
-		//console.log(data)
-		profile = {}
-		profile = data
-		buildFirstPage()
-	})
-	.catch(error => console.log(error))
+  .then(data => {
+    //console.log(data)
+    profile = {}
+    profile = data
+    buildFirstPage()
+  })
+  .catch(error => console.log(error))
 
 if (publicationId) {
-	const limit = document.getElementById('ScopusPublications').dataset.limit
-	/*publicationId.addEventListener('click',e=>{
-		<strong>(<a name="prims:url" href="${publications[key]['prism:url']}">cited by</a>: 
-					${publications[key]['citedby-count']})</strong>
-					,
-		if (e.target.name==='prims:url'){
-			e.preventDefault()
-			console.log(e.target.href)
-			getCitedByUrl(e.target.href).then(data=>console.log('data',data))
-			.catch(error=>console.log('error',error))
-			
-		}
-	})*/
-	getPublicationsByAuthorId(id, limit).then(data => {
-		//console.log(data)
-		if (data['service-error']) {
-			publicationId.innerHTML = `<div >Scopus Server Error: 
+  const limit = document.getElementById('ScopusPublications').dataset.limit
+
+  let logtime = localStorage.getItem(`${id}_${limit}_publications_logtime`)
+  let pubResults
+  const now = new Date().getTime()
+  let isLocal = false
+  if (logtime) {
+    if (now <= logtime + 7*24*60*60*1000) {
+      pubResults = localStorage.getItem(`${id}_${limit}_publications`)
+      if (pubResults) {
+        isLocal = true
+        publicationId.innerHTML = pubResults
+      }
+    }
+  }
+
+  if (!isLocal) {
+    getPublicationsByAuthorId(id, limit).then(data => {
+      //console.log(data)
+      if (data['service-error']) {
+        publicationId.innerHTML = `<div >Scopus Server Error: 
 			${data['service-error'].status.statusText}</div>`
-		} else {
-			let html = '<ol>'
-			const publications = data['search-results'].entry
-			const keys = Object.keys(publications)
-			keys.forEach(key => {
-				let vol = publications[key]['prism:volume']
-					? 'vol. '+ publications[key]['prism:volume']+', '
-					: ''
-				html += `<li> 
+      } else {
+        let html = '<ol>'
+        const publications = data['search-results'].entry
+        const keys = Object.keys(publications)
+        let pubCounter = 0
+        keys.forEach(key => {
+          if (pubCounter++ >= limit) {
+            return
+          }
+          let vol = publications[key]['prism:volume']
+            ? 'vol. ' + publications[key]['prism:volume'] + ', '
+            : ''
+          html += `<li> 
 				${getAuthors(publications[key]['author'])},
 				"${publications[key]['dc:title']}", 
                 ${publications[key]['prism:publicationName']},
@@ -77,25 +83,30 @@ if (publicationId) {
 				<strong>(cited by: ${publications[key]['citedby-count']})</strong>
                 <a target="_blank" 
                 rel="noopener noreferrer"
-                href="https://doi.org/${publications[key]['prism:doi']}">download</a>
+                href="https://doi.org/${
+                  publications[key]['prism:doi']
+                }">download</a>
 
             </li>`
-			})
-			//console.log(publications)
-			html += '</ol>'
-			publicationId.innerHTML = html
-		}
-	})
+        })
+        //console.log(publications)
+        html += '</ol>'
+        localStorage.setItem(`${id}_${limit}_publications`, html)
+        localStorage.setItem(`${id}_${limit}_publications_logtime`, now)
+        publicationId.innerHTML = html
+      }
+    })
+  }
 }
 
 if (teachingDiv) {
-	document.querySelector('#teaching-loading').classList.add('hide')
-	const coursesTaught = document.querySelector('#coursesTaught div')
-	document.querySelector('#coursesTaught').classList.remove('hide')
-	getCourseFiles(username)
-		.then(data => {
-			const values = Object.values(data)
-			let html = `<table>
+  document.querySelector('#teaching-loading').classList.add('hide')
+  const coursesTaught = document.querySelector('#coursesTaught div')
+  document.querySelector('#coursesTaught').classList.remove('hide')
+  getCourseFiles(username)
+    .then(data => {
+      const values = Object.values(data)
+      let html = `<table>
 				<thead>
 					<th> #</th>
 					<th> Semester</th>
@@ -104,8 +115,8 @@ if (teachingDiv) {
 				</thead>
 				<tbody>
 			`
-			values.forEach((course, i) => {
-				html += `
+      values.forEach((course, i) => {
+        html += `
 				<tr>
 					<td> ${i + 1}</td>
 					<td> ${course.semester}</td>
@@ -113,20 +124,20 @@ if (teachingDiv) {
 					<td> ${course.section}</td>
 				</tr>				
 				`
-			})
-			html += `</tbody></table>`
+      })
+      html += `</tbody></table>`
 
-			coursesTaught.innerHTML = html
-		})
-		.catch(error => (coursesTaught.innerHTML = error))
+      coursesTaught.innerHTML = html
+    })
+    .catch(error => (coursesTaught.innerHTML = error))
 
-	const currentOH = document.querySelector('#currentOH div')
-	document.querySelector('#currentOH').classList.remove('hide')
+  const currentOH = document.querySelector('#currentOH div')
+  document.querySelector('#currentOH').classList.remove('hide')
 
-	getOfficeHours(username)
-		.then(data => {
-			const keys = Object.keys(data)
-			let html = `<table>
+  getOfficeHours(username)
+    .then(data => {
+      const keys = Object.keys(data)
+      let html = `<table>
 				<thead>
 					<th> Sunday</th>
 					<th> Monday</th>
@@ -137,32 +148,32 @@ if (teachingDiv) {
 				<tbody>
 				<tr>
 			`
-			keys.forEach(day => {
-				if (day != 'Friday' && day != 'Saturday') {
-					let temp = ''
-					if (data[day].length > 0) {
-						data[day].forEach(ohs => {
-							ohs.forEach(oh => (temp += `${oh}<br>`))
-						})
-					}
-					html += `
+      keys.forEach(day => {
+        if (day != 'Friday' && day != 'Saturday') {
+          let temp = ''
+          if (data[day].length > 0) {
+            data[day].forEach(ohs => {
+              ohs.forEach(oh => (temp += `${oh}<br>`))
+            })
+          }
+          html += `
 					<td> ${temp}</td>
 				`
-				}
-			})
-			html += `</tr></tbody></table>`
+        }
+      })
+      html += `</tr></tbody></table>`
 
-			currentOH.innerHTML = html
-		})
-		.catch(error => (currentOH.innerHTML = error))
+      currentOH.innerHTML = html
+    })
+    .catch(error => (currentOH.innerHTML = error))
 
-	const currentSchedule = document.querySelector('#currentSchedule div')
-	document.querySelector('#currentSchedule').classList.remove('hide')
+  const currentSchedule = document.querySelector('#currentSchedule div')
+  document.querySelector('#currentSchedule').classList.remove('hide')
 
-	getSchedule(username)
-		.then(data => {
-			const values = Object.values(data)
-			let html = `
+  getSchedule(username)
+    .then(data => {
+      const values = Object.values(data)
+      let html = `
 			<table>
 				<thead>
 					<th> #</th>
@@ -175,8 +186,8 @@ if (teachingDiv) {
 				<tbody>
 				
 			`
-			values.forEach((lec, i) => {
-				html += `
+      values.forEach((lec, i) => {
+        html += `
 				<tr>
 					<td> ${i + 1}</td>
 					<td> ${lec.code}</td>
@@ -187,20 +198,20 @@ if (teachingDiv) {
 				</tr>
 							
 				`
-			})
-			html += `</tbody></table>`
+      })
+      html += `</tbody></table>`
 
-			currentSchedule.innerHTML = html
-		})
-		.catch(error => (currentSchedule.innerHTML = error))
+      currentSchedule.innerHTML = html
+    })
+    .catch(error => (currentSchedule.innerHTML = error))
 }
 
 const buildFirstPage = () => {
-	//authorName.innerText = profile.name
-	/*if (profilePicture) {
+  //authorName.innerText = profile.name
+  /*if (profilePicture) {
 		profilePicture.src = profile.image
 	}*/
-	/*if (aboutMeDiv) {
+  /*if (aboutMeDiv) {
 		aboutMeDiv.innerHTML = `<img style="width: 20%;" src="./assets/images/spinner.gif"> loading ... `
 		let html = `<ul>`
 		html += `<li>Name: ${profile.name} </li>`
@@ -211,7 +222,7 @@ const buildFirstPage = () => {
 		html += '</ul>'
 		aboutMeDiv.innerHTML = html
 	}*/
-	/*
+  /*
 	if (researchInterests) {
 		const ri = profile.research_interests
 
